@@ -62,5 +62,40 @@ http://localhost/tool/find
 
 Поиск лога по имени и дате
 
+# SQL
+
+``` sql
+CREATE TABLE `log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) NOT NULL,
+  `servicetype` smallint(6) NOT NULL,
+  `amount` decimal(10,4) NOT NULL,
+  `dateline` int(11) NOT NULL,
+  `data` text,
+  PRIMARY KEY (`id`),
+  KEY `userid` (`userid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `country` varchar(45) NOT NULL,
+  `city` varchar(45) NOT NULL,
+  `created` int(11) NOT NULL,
+  `currency` varchar(10) DEFAULT NULL,
+  `amount` decimal(10,4) DEFAULT '0.0000',
+  PRIMARY KEY (`id`),
+  KEY `currency` (`currency`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `сurrencies` (
+  `dateline` date NOT NULL,
+  `currency_from` varchar(5) NOT NULL,
+  `currency_to` varchar(5) NOT NULL,
+  `rate` float(7,4) NOT NULL,
+  PRIMARY KEY (`dateline`,`currency_from`,`currency_to`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
 **Free Software, Hell Yeah!**
 
