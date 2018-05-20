@@ -1,0 +1,142 @@
+<?php
+use App\Entities\User;
+use App\Db\Writer;
+
+/** @var User $user  */
+?>
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.6/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <title>Hello, world!</title>
+  </head>
+  <body>
+    <div class="jumbotron">
+	  <form method="post">
+          <div class="form-row align-items-center">
+            <div class="col-auto">
+              <label class="sr-only" for="inlineFormInput">Name</label>
+              <input type="text" value="<?=!empty($_POST['name']) ? $_POST['name'] : false?>" name="name" class="form-control mb-2" id="inlineFormInput" placeholder="Jane Doe">
+            </div>
+            <div class="col-auto">
+              <label class="sr-only" for="inlineFormInputGroup">От:</label>
+              <div class="input-group mb-2">
+                <input type="text" value="<?=!empty($_POST['start']) ? $_POST['start']: false?>" name="start" class="form-control" placeholder="Время от" id="datepickerStart" width="200">
+              </div>
+            </div>
+            <div class="col-auto">
+              <label class="sr-only" for="inlineFormInputGroup">До:</label>
+              <div class="input-group mb-2">
+                <input type="text" value="<?=!empty($_POST['end']) ? $_POST['end']: false?>" name="end" class="form-control" placeholder="Время до" id="datepickerEnd" width="200">
+              </div>
+            </div>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-primary mb-2">Вывести</button>
+            </div>
+          </div>
+        </form>
+
+       <?php if(!empty($user)):?>
+       <div class="form-row align-items-center">
+            <div class="col-auto">
+              Получено средств:
+            </div>
+            <div class="col-auto">
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">$</div>
+                </div>
+                <input type="text" class="form-control" id="inlineFormInputGroup" disabled="disabled" value="<?=$user->getTotalUsdAdd()?>">
+              </div>
+            </div>
+            <div class="col-auto">
+              Потрачено средств:
+            </div>
+            <div class="col-auto">
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">$</div>
+                </div>
+                <input type="text" class="form-control" id="inlineFormInputGroup" disabled="disabled" value="<?=$user->getTotalUsdSub()?>">
+              </div>
+            </div>
+        </div>
+       <div class="form-row align-items-center">
+            <div class="col-auto">
+              Получено средств:
+            </div>
+            <div class="col-auto">
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><?=$user->getCurrency()?></div>
+                </div>
+                <input type="text" class="form-control" id="inlineFormInputGroup" disabled="disabled" value="<?=$user->getTotalAdd()?>">
+              </div>
+            </div>
+            <div class="col-auto">
+              Потрачено средств:
+            </div>
+            <div class="col-auto">
+              <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                  <div class="input-group-text"><?=$user->getCurrency()?></div>
+                </div>
+                <input type="text" class="form-control" id="inlineFormInputGroup" disabled="disabled" value="<?=$user->getTotalSub()?>">
+              </div>
+            </div>
+        </div>
+        <hr>
+        <?php if(!empty($list)):?>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Дата</th>
+              <th scope="col">Тип операции</th>
+              <th scope="col">Сумма</th>
+              <th scope="col">Служебная информация</th>
+            </tr>
+          </thead>
+          <tbody>
+          	<?php foreach ($list as $id => $row):?>
+          	<tr>
+              <th scope="row"><?=($id+1)?></th>
+              <td><?=date("Y.m.d H:i:s", $row->dateline);?></td>
+              <td><?=Writer::$operationTranslate[$row->servicetype];?></td>
+              <td><?=$row->amount . " " . $user->getCurrency()?></td>
+              <td><?=/*$row->data*/'';?></td>
+            </tr>
+          	<?php endforeach;?>
+          </tbody>
+        </table>
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="/tool/save?name=<?=$_POST['name']?>&start=<?=$_POST['start']?>&end=<?=$_POST['end']?>" role="button">Скачать</a>
+          </p>
+        <?php endif;?>
+       <?php endif;?>
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.6/js/gijgo.min.js" type="text/javascript"></script>
+    <script>
+        $('#datepickerStart').datepicker({
+            uiLibrary: 'bootstrap4'
+        });
+        $('#datepickerEnd').datepicker({
+            uiLibrary: 'bootstrap4'
+        });
+    </script>
+  </body>
+</html>

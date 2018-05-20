@@ -1,0 +1,11 @@
+Options +FollowSymlinks
+
+# Prevent Directoy listing
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^((?s).*)$ index.php?_url=/$1 [QSA,L]
+</IfModule>
