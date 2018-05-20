@@ -74,7 +74,8 @@ CREATE TABLE `log` (
   `data` text,
   PRIMARY KEY (`id`),
   KEY `userid` (`userid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
