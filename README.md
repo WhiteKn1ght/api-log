@@ -82,9 +82,10 @@ CREATE TABLE `users` (
   `country` varchar(45) NOT NULL,
   `city` varchar(45) NOT NULL,
   `created` int(11) NOT NULL,
-  `currency` varchar(10) DEFAULT NULL,
-  `amount` decimal(10,4) DEFAULT '0.0000',
+  `currency` varchar(5) NOT NULL,
+  `amount` decimal(10,4) NOT NULL DEFAULT '0.0000',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `name_UNIQUE` (`name`),
   KEY `currency` (`currency`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
